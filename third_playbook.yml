@@ -1,0 +1,17 @@
+---
+- name: MN521 Lab 7 - Collect Router Information
+  hosts: cisco
+  gather_facts: no
+
+  tasks:
+    - name: Collect IOS information
+      cisco.ios.ios_command:
+        commands:
+          - show version
+          - show ip interface brief
+          - show ip route
+      register: router_output
+
+    - name: Display collected information
+      debug:
+        var: router_output.stdout_lines

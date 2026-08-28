@@ -1,0 +1,12 @@
+---
+- name: MN521 Lab 7 - Configure Router Banner
+  hosts: cisco
+  gather_facts: no
+
+  tasks:
+    - name: Configure login banner
+      cisco.ios.ios_banner:
+        banner: login
+        text: |
+          MN521 LAB 7 - MANAGED BY ANSIBLE
+        state: present

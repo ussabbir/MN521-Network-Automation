@@ -1,0 +1,37 @@
+---
+- name: Update and Verify Hostname on Cisco IOS Device
+  hosts: cisco
+  gather_facts: no
+
+  tasks:
+    - name: Gather Facts Before Setting Hostname
+      cisco.ios.ios_facts:
+      register: ios_facts_result
+
+    - name: Display Hostname Before
+      debug:
+        var: ios_facts_result.ansible_facts.ansible_net_hostname
+
+    - name: Set Router Hostname
+      cisco.ios.ios_config:
+        lines:
+          - hostname R3-DC
+      register: set_hostname_result
+
+    - name: Gather Updated Facts
+      cisco.ios.ios_facts:
+      register: updated_facts_result
+
+    - name: Display Hostname After
+      debug:
+        var: updated_facts_result.ansible_facts.ansible_net_hostname
+
+    - name: Gather Interface Facts
+      cisco.ios.ios_facts:
+        gather_subset:
+          - interfaces
+      register: interface_facts_result
+
+    - name: Display Interface Facts
+      debug:
+        var: interface_facts_result

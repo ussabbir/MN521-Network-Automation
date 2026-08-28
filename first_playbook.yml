@@ -1,0 +1,16 @@
+---
+- name: MN521 Lab 7 - Cisco IOS Verification
+  hosts: cisco
+  gather_facts: no
+
+  tasks:
+    - name: Show IP interface brief
+      cisco.ios.ios_command:
+        commands:
+          - show ip interface brief
+      register: interface_output
+
+    - name: Display interface information
+      debug:
+        var: interface_output.stdout_lines
+
