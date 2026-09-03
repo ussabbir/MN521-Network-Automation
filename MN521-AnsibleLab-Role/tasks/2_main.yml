@@ -1,0 +1,31 @@
+---
+# Lab 10 - Router Interface Configuration
+
+- name: Configure Lab 10 interface
+  cisco.ios.ios_interfaces:
+    config:
+      - name: "{{ router_interfaces[router_hostname].interface }}"
+        description: MN521-LAB10-ANSIBLE
+        enabled: true
+    state: merged
+
+- name: Configure Lab 10 IPv4 address
+  cisco.ios.ios_l3_interfaces:
+    config:
+      - name: "{{ router_interfaces[router_hostname].interface }}"
+        ipv4:
+          - address: "{{ router_interfaces[router_hostname].ip_address }}"
+    state: merged
+  register: int
+
+- name: Display interface before state
+  debug:
+    var: int.before
+
+- name: Display interface commands
+  debug:
+    var: int.commands
+
+- name: Display interface after state
+  debug:
+    var: int.after

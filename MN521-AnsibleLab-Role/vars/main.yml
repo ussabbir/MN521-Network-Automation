@@ -4,3 +4,13 @@
 ansible_network_os: ios
 ansible_connection: network_cli
 ansible_user: netadmin
+
+# Lab 10 - Router specific interfaces
+router_interfaces:
+  R1-HQ:
+    interface: Loopback10
+    ip_address: 10.10.100.1/32
+
+  R3-DC:
+    interface: Loopback10
+    ip_address: 10.30.100.1/32
