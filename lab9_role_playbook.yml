@@ -1,0 +1,8 @@
+---
+- name: MN521 Lab 9 - Ansible Role Automation
+  hosts: cisco_devices
+  gather_facts: no
+  connection: ansible.netcommon.network_cli
+
+  roles:
+    - MN521-AnsibleLab-Role

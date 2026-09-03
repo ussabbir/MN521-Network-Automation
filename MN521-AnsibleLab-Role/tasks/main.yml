@@ -1,2 +1,24 @@
 ---
-# tasks file for MN521-AnsibleLab-Role
+# Tasks for MN521-AnsibleLab-Role
+
+- name: Gather Initial Facts
+  cisco.ios.ios_facts:
+  register: initial_facts
+
+- name: Display Current Hostname
+  debug:
+    var: initial_facts.ansible_facts.ansible_net_hostname
+
+- name: Verify Expected Router Hostname
+  debug:
+    msg: "Expected hostname is {{ router_hostname }}"
+
+- name: Gather Interface Facts
+  cisco.ios.ios_facts:
+    gather_subset:
+      - interfaces
+  register: interface_facts
+
+- name: Display Interface Facts
+  debug:
+    var: interface_facts.ansible_facts.ansible_net_interfaces

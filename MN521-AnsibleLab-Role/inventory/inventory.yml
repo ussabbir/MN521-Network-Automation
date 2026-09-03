@@ -1,0 +1,10 @@
+---
+cisco_devices:
+  hosts:
+    R1-HQ:
+      ansible_host: 10.255.255.1
+      router_hostname: R1-HQ
+
+    R3-DC:
+      ansible_host: 10.255.255.3
+      router_hostname: R3-DC
