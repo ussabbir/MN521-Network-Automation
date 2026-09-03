@@ -1,0 +1,17 @@
+---
+# Lab 10 - NTP Server Configuration
+
+- name: Configure NTP server
+  cisco.ios.ios_config:
+    lines:
+      - "ntp server {{ ntp_server }}"
+
+- name: Verify NTP configuration
+  cisco.ios.ios_command:
+    commands:
+      - show run | include ntp
+  register: ntp_output
+
+- name: Display NTP configuration
+  debug:
+    var: ntp_output.stdout_lines

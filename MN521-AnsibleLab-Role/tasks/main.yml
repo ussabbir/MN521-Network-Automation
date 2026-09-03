@@ -24,4 +24,4 @@
     var: interface_facts.ansible_facts.ansible_net_interfaces
 
 - name: Include Lab 10 interface configuration tasks
-  include_tasks: 2_main.yml
+  include_tasks: 3_main.yml

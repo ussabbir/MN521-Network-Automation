@@ -9,8 +9,10 @@ ansible_user: netadmin
 router_interfaces:
   R1-HQ:
     interface: Loopback10
-    ip_address: 10.10.100.1/32
+    ip_address: 10.10.120.1/32
 
   R3-DC:
     interface: Loopback10
-    ip_address: 10.30.100.1/32
+    ip_address: 10.30.120.1/32
+# Lab 10 - NTP Server
+ntp_server: 10.30.60.10
