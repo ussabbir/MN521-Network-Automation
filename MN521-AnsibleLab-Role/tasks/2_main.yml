@@ -15,7 +15,7 @@
       - name: "{{ router_interfaces[router_hostname].interface }}"
         ipv4:
           - address: "{{ router_interfaces[router_hostname].ip_address }}"
-    state: merged
+    state: replaced
   register: int
 
 - name: Display interface before state
