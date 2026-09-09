@@ -1,0 +1,24 @@
+
+---
+- name: Collect current Layer 2 configuration
+  hosts: switches
+  gather_facts: false
+
+  tasks:
+    - name: VERIFY | Collect VLAN and trunk information
+      cisco.ios.ios_command:
+        commands:
+          - show vlan brief
+          - show interfaces trunk
+      register: layer2_output
+      changed_when: false
+      tags:
+        - verify
+        - monitoring
+
+    - name: VERIFY | Display collected information
+      ansible.builtin.debug:
+        var: layer2_output.stdout
+      tags:
+        - verify
+        - monitoring

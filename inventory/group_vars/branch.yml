@@ -1,0 +1,12 @@
+---
+site_name: BRANCH
+
+site_vlans:
+  - vlan_id: 40
+    name: BR-USERS
+  - vlan_id: 50
+    name: BR-GUEST
+  - vlan_id: 99
+    name: MANAGEMENT
+  - vlan_id: 999
+    name: BLACKHOLE

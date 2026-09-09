@@ -1,0 +1,19 @@
+---
+- name: VLANS | Create the site VLAN database
+  cisco.ios.ios_vlans:
+    config: "{{ site_vlans }}"
+    state: merged
+  notify: save configuration
+  tags:
+    - layer2
+    - vlans
+
+- name: VLANS | Configure Layer 2 interfaces
+  cisco.ios.ios_l2_interfaces:
+    config: "{{ l2_interfaces }}"
+    state: merged
+  when: l2_interfaces is defined
+  notify: save configuration
+  tags:
+    - layer2
+    - interfaces

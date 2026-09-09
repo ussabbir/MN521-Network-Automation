@@ -1,0 +1,14 @@
+---
+site_name: HQ
+
+site_vlans:
+  - vlan_id: 10
+    name: HQ-USERS
+  - vlan_id: 20
+    name: HQ-VOICE
+  - vlan_id: 30
+    name: HQ-SERVERS
+  - vlan_id: 99
+    name: MANAGEMENT
+  - vlan_id: 999
+    name: BLACKHOLE

@@ -1,0 +1,30 @@
+---
+site_vlans:
+  - vlan_id: 30
+    name: HQ-SERVERS
+  - vlan_id: 99
+    name: MANAGEMENT
+  - vlan_id: 999
+    name: BLACKHOLE
+l2_interfaces:
+  - name: GigabitEthernet0/0
+    mode: trunk
+    trunk:
+      allowed_vlans: 30,99
+      native_vlan: 999
+      encapsulation: dot1q
+
+  - name: GigabitEthernet0/1
+    mode: access
+    access:
+      vlan: 30
+
+  - name: GigabitEthernet0/2
+    mode: access
+    access:
+      vlan: 30
+
+  - name: GigabitEthernet0/3
+    mode: access
+    access:
+      vlan: 999

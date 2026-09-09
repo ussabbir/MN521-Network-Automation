@@ -1,0 +1,12 @@
+---
+site_name: DATACENTRE
+
+site_vlans:
+  - vlan_id: 60
+    name: DC-APP
+  - vlan_id: 70
+    name: DC-DB
+  - vlan_id: 99
+    name: MANAGEMENT
+  - vlan_id: 999
+    name: BLACKHOLE

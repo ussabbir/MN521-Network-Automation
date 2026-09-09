@@ -1,2 +1,3 @@
 ---
 - import_playbook: 01-base-config.yml
+- import_playbook: 02-layer2-vlans.yml 
