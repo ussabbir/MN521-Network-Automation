@@ -1,0 +1,6 @@
+vault.yml
+.vault_pass
+*.retry
+backups/
+reports/
+__pycache__/
