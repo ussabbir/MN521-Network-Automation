@@ -34,3 +34,22 @@ l2_interfaces:
     mode: access
     access:
       vlan: 999
+
+port_security_interfaces:
+  - name: GigabitEthernet0/1
+    lines:
+      - switchport port-security maximum 3
+      - switchport port-security violation restrict
+      - switchport port-security mac-address sticky
+      - switchport port-security
+      - spanning-tree portfast edge
+      - spanning-tree bpduguard enable
+
+  - name: GigabitEthernet0/2
+    lines:
+      - switchport port-security maximum 3
+      - switchport port-security violation restrict
+      - switchport port-security mac-address sticky
+      - switchport port-security
+      - spanning-tree portfast edge
+      - spanning-tree bpduguard enable

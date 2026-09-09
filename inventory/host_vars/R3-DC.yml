@@ -35,3 +35,28 @@ ospf_interfaces:
       - ip ospf network point-to-point
       - ip ospf cost 300
       - ip ospf 1 area 0
+
+security_acls:
+  - name: APP-TIER-IN
+    type: extended
+    lines:
+      - permit ip host 10.30.60.10 10.30.99.0 0.0.0.255
+      - deny   ip 10.30.60.0 0.0.0.255 10.30.99.0 0.0.0.255 log
+      - permit ip 10.30.60.0 0.0.0.255 any
+      - deny   ip any any log
+  - name: DB-TIER-PROTECT
+    type: extended
+    lines:
+      - permit tcp 10.30.60.0 0.0.0.255 10.30.70.0 0.0.0.255 eq 3306
+      - permit tcp 10.30.60.0 0.0.0.255 10.30.70.0 0.0.0.255 eq 1521
+      - permit ip host 10.30.60.10 10.30.70.0 0.0.0.255
+      - deny   ip any 10.30.70.0 0.0.0.255 log
+      - permit ip any any
+acl_bindings:
+  - name: FastEthernet0/0.60
+    acl: APP-TIER-IN
+    direction: in
+
+  - name: FastEthernet0/0.70
+    acl: DB-TIER-PROTECT
+    direction: out

@@ -39,3 +39,20 @@ ospf_interfaces:
       - ip ospf network point-to-point
       - ip ospf cost 300
       - ip ospf 1 area 0
+security_acls:
+  - name: HQ-USERS-IN
+    type: extended
+    lines:
+      - remark Block users from management networks
+      - deny   ip 10.10.10.0 0.0.0.255 10.10.99.0 0.0.0.255
+      - deny   ip 10.10.10.0 0.0.0.255 10.20.99.0 0.0.0.255
+      - deny   ip 10.10.10.0 0.0.0.255 10.30.99.0 0.0.0.255
+      - remark Block direct database access
+      - deny   tcp 10.10.10.0 0.0.0.255 10.30.70.0 0.0.0.255 eq 3306
+      - deny   tcp 10.10.10.0 0.0.0.255 10.30.70.0 0.0.0.255 eq 1521
+      - permit ip any any
+
+acl_bindings:
+  - name: FastEthernet0/0.10
+    acl: HQ-USERS-IN
+    direction: in
