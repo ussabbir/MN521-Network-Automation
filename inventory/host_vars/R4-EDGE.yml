@@ -1,0 +1,30 @@
+---
+ospf_process_lines:
+  - router-id 10.255.255.4
+  - log-adjacency-changes detail
+  - auto-cost reference-bandwidth 10000
+  - passive-interface default
+  - no passive-interface FastEthernet1/0
+  - no passive-interface FastEthernet1/1
+  - no passive-interface FastEthernet2/0
+  - default-information originate always metric 10 metric-type 1
+
+ospf_interfaces:
+  - name: Loopback0
+    lines:
+       - ip ospf 1 area 0
+
+  - name: FastEthernet1/0
+    lines:
+      - ip ospf network point-to-point
+      - ip ospf 1 area 0
+
+  - name: FastEthernet1/1
+    lines:
+      - ip ospf network point-to-point
+      - ip ospf 1 area 0
+
+  - name: FastEthernet2/0
+    lines:
+      - ip ospf network point-to-point
+      - ip ospf 1 area 0

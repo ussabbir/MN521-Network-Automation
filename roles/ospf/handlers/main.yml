@@ -1,0 +1,7 @@
+---
+- name: save router configuration
+  cisco.ios.ios_command:
+    commands:
+      - command: write memory
+        prompt: 'Overwrite the previous NVRAM configuration.*confirm'
+        answer: "\r"

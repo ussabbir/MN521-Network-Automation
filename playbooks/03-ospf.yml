@@ -1,0 +1,8 @@
+---
+- name: Stage 3 - Deploy OSPF routing
+  hosts: routers
+  gather_facts: false
+  serial: 1
+
+  roles:
+    - ospf
