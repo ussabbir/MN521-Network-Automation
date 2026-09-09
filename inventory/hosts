@@ -1,0 +1,41 @@
+[routers]
+R1-HQ ansible_host=10.255.255.1
+R2-BRANCH ansible_host=10.255.255.2
+R3-DC ansible_host=10.255.255.3
+R4-EDGE ansible_host=10.255.255.4
+
+[switches]
+SW-HQ-CORE ansible_host=10.10.99.11
+SW-HQ-ACC1 ansible_host=10.10.99.12
+SW-HQ-ACC2 ansible_host=10.10.99.13
+SW-BR-ACC1 ansible_host=10.20.99.11
+SW-DC-CORE ansible_host=10.30.99.11
+SW-DC-ACC1 ansible_host=10.30.99.12
+
+[hq]
+R1-HQ
+SW-HQ-CORE
+SW-HQ-ACC1
+SW-HQ-ACC2
+
+[branch]
+R2-BRANCH
+SW-BR-ACC1
+
+[datacentre]
+R3-DC
+SW-DC-CORE
+SW-DC-ACC1
+
+[edge]
+R4-EDGE
+
+[network:children]
+routers
+switches
+
+[sites:children]
+hq
+branch
+datacentre
+edge

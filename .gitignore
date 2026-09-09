@@ -4,3 +4,5 @@ vault.yml
 backups/
 reports/
 __pycache__/
+
+vault*.yml*
