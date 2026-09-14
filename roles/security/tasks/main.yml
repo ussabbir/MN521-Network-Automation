@@ -1,0 +1,70 @@
+---
+- name: SECURITY | Configure management ACL
+  cisco.ios.ios_config:
+    parents: ip access-list standard MGMT-ACCESS
+    lines: "{{ management_acl_lines }}"
+    match: line
+    save_when: never
+  when: inventory_hostname in groups['routers']
+  notify: save security configuration
+  tags:
+    - security
+    - acl
+
+- name: SECURITY | Protect VTY access
+  cisco.ios.ios_config:
+    parents: line vty 0 4
+    lines:
+      - access-class MGMT-ACCESS in
+      - login local
+      - transport input ssh
+    match: line
+    save_when: never
+  when: inventory_hostname in groups['routers']
+  notify: save security configuration
+  tags:
+    - security
+    - ssh
+
+- name: SECURITY | Configure device-specific ACLs
+  cisco.ios.ios_config:
+    parents: "ip access-list {{ item.type }} {{ item.name }}"
+    lines: "{{ item.lines }}"
+    match: line
+    save_when: never
+  loop: "{{ security_acls | default([]) }}"
+  loop_control:
+    label: "{{ item.name }}"
+  notify: save security configuration
+  tags:
+    - security
+    - acl
+
+- name: SECURITY | Apply ACLs to interfaces
+  cisco.ios.ios_config:
+    parents: "interface {{ item.name }}"
+    lines:
+      - "ip access-group {{ item.acl }} {{ item.direction }}"
+    match: line
+    save_when: never
+  loop: "{{ acl_bindings | default([]) }}"
+  loop_control:
+    label: "{{ item.name }}"
+  notify: save security configuration
+  tags:
+    - security
+    - acl
+
+- name: SECURITY | Configure access-port protection
+  cisco.ios.ios_config:
+    parents: "interface {{ item.name }}"
+    lines: "{{ item.lines }}"
+    match: line
+    save_when: never
+  loop: "{{ port_security_interfaces | default([]) }}"
+  loop_control:
+    label: "{{ item.name }}"
+  notify: save security configuration
+  tags:
+    - security
+    - port-security

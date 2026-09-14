@@ -1,0 +1,7 @@
+---
+- name: Stage 1 - Apply common baseline
+  hosts: network
+  gather_facts: false
+
+  roles:
+    - common

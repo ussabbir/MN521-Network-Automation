@@ -1,0 +1,8 @@
+---
+- name: Stage 4 - Apply network security controls
+  hosts: network
+  gather_facts: false
+  serial: 1
+
+  roles:
+    - security

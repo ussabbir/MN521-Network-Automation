@@ -1,0 +1,15 @@
+---
+- name: Save router security configuration
+  cisco.ios.ios_command:
+    commands:
+      - command: write memory
+        prompt: 'Overwrite the previous NVRAM configuration.*confirm'
+        answer: "\r"
+  when: inventory_hostname in groups['routers']
+  listen: save security configuration
+
+- name: Save switch security configuration
+  cisco.ios.ios_config:
+    save_when: always
+  when: inventory_hostname in groups['switches']
+  listen: save security configuration

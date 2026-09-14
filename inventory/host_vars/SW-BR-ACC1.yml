@@ -1,0 +1,23 @@
+---
+l2_interfaces:
+  - name: GigabitEthernet0/0
+    mode: trunk
+    trunk:
+      allowed_vlans: 40,50,99
+      native_vlan: 999
+      encapsulation: dot1q
+
+  - name: GigabitEthernet0/1
+    mode: access
+    access:
+      vlan: 40
+
+  - name: GigabitEthernet0/2
+    mode: access
+    access:
+      vlan: 50
+
+  - name: GigabitEthernet0/3
+    mode: access
+    access:
+      vlan: 999

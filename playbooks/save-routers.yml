@@ -1,0 +1,13 @@
+---
+- name: Save c7200 router configurations
+  hosts: routers
+  gather_facts: false
+  serial: 1
+
+  tasks:
+    - name: SAVE | Write running configuration to NVRAM
+      cisco.ios.ios_command:
+        commands:
+          - command: write memory
+            prompt: 'Overwrite the previous NVRAM configuration.*confirm'
+            answer: "\r"

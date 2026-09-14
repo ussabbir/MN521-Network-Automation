@@ -1,0 +1,46 @@
+---
+ospf_process_lines:
+  - router-id 10.255.255.2
+  - log-adjacency-changes detail
+  - auto-cost reference-bandwidth 10000
+  - area 20 range 10.20.0.0 255.255.0.0
+  - passive-interface default
+  - no passive-interface FastEthernet1/0
+
+ospf_interfaces:
+  - name: Loopback0
+    lines:
+      - ip ospf 1 area 0
+
+  - name: FastEthernet0/0.40
+    lines:
+      - ip ospf 1 area 20
+
+  - name: FastEthernet0/0.50
+    lines:
+      - ip ospf 1 area 20
+
+  - name: FastEthernet0/0.99
+    lines:
+      - ip ospf 1 area 20
+
+  - name: FastEthernet1/0
+    lines:
+      - ip ospf network point-to-point
+      - ip ospf 1 area 0
+security_acls:
+  - name: GUEST-ISOLATION
+    type: extended
+    lines:
+      - permit udp any eq bootpc any eq bootps
+      - permit udp 10.20.50.0 0.0.0.255 any eq bootps
+      - permit udp 10.20.50.0 0.0.0.255 any eq domain
+      - deny   ip 10.20.50.0 0.0.0.255 10.0.0.0 0.255.255.255 log
+      - deny   ip 10.20.50.0 0.0.0.255 172.16.0.0 0.15.255.255 log
+      - deny   ip 10.20.50.0 0.0.0.255 192.168.0.0 0.0.255.255
+      - permit ip 10.20.50.0 0.0.0.255 any
+
+acl_bindings:
+  - name: FastEthernet0/0.50
+    acl: GUEST-ISOLATION
+    direction: in

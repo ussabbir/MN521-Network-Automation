@@ -1,0 +1,7 @@
+---
+ansible_connection: network_cli
+ansible_network_os: cisco.ios.ios
+ansible_user: "{{ vault_network_username }}"
+ansible_password: "{{ vault_network_password }}"
+ansible_become: false
+ansible_command_timeout: 60

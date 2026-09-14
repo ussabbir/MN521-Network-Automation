@@ -1,0 +1,6 @@
+---
+- name: Stage 2 - Deploy Layer 2 VLAN database
+  hosts: switches
+  gather_facts: false
+  roles:
+    - vlans

@@ -1,0 +1,16 @@
+vault.yml
+.vault_pass
+*.retry
+backups/
+reports/
+__pycache__/
+
+vault*.yml*
+
+# Terraform
+terraform/.terraform/
+terraform/terraform.tfvars
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/*.pem
+terraform/tfplan

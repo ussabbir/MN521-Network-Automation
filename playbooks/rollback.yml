@@ -1,0 +1,10 @@
+---
+- name: Stage 8 - Rollback intentional drift
+  hosts: R1-HQ
+  gather_facts: no
+
+  tasks:
+    - name: ROLLBACK | Remove drift-test interface
+      cisco.ios.ios_config:
+        lines:
+          - no interface Loopback88

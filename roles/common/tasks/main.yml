@@ -1,0 +1,20 @@
+---
+- name: COMMON | Gather minimum device facts
+  cisco.ios.ios_facts:
+    gather_subset:
+      - min
+  tags:
+    - common
+    - facts
+
+- name: COMMON | Apply safe security baseline
+  cisco.ios.ios_config:
+    lines:
+      - service password-encryption
+      - service sequence-numbers
+      - no ip http server
+      - no ip http secure-server
+    save_when: never
+  tags:
+    - common
+    - security

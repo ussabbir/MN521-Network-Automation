@@ -1,0 +1,25 @@
+---
+- name: OSPF | Configure routing process
+  cisco.ios.ios_config:
+    parents: router ospf 1
+    lines: "{{ ospf_process_lines }}"
+    match: line
+    save_when: never
+  notify: save router configuration
+  tags:
+    - routing
+    - ospf
+
+- name: OSPF | Configure participating interfaces
+  cisco.ios.ios_config:
+    parents: "interface {{ item.name }}"
+    lines: "{{ item.lines }}"
+    match: line
+    save_when: never
+  loop: "{{ ospf_interfaces }}"
+  loop_control:
+    label: "{{ item.name }}"
+  notify: save router configuration
+  tags:
+    - routing
+    - ospf

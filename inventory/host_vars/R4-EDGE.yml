@@ -1,0 +1,62 @@
+---
+ospf_process_lines:
+  - router-id 10.255.255.4
+  - log-adjacency-changes detail
+  - auto-cost reference-bandwidth 10000
+  - passive-interface default
+  - no passive-interface FastEthernet1/0
+  - no passive-interface FastEthernet1/1
+  - no passive-interface FastEthernet2/0
+  - default-information originate always metric 10 metric-type 1
+
+ospf_interfaces:
+  - name: Loopback0
+    lines:
+       - ip ospf 1 area 0
+
+  - name: FastEthernet1/0
+    lines:
+      - ip ospf network point-to-point
+      - ip ospf 1 area 0
+
+  - name: FastEthernet1/1
+    lines:
+      - ip ospf network point-to-point
+      - ip ospf 1 area 0
+
+  - name: FastEthernet2/0
+    lines:
+      - ip ospf network point-to-point
+      - ip ospf 1 area 0
+
+security_acls:
+  - name: NAT-INSIDE-SOURCES
+    type: standard
+    lines:
+      - remark Corporate networks eligible for internet translation
+      - permit 10.10.0.0 0.0.255.255
+      - permit 10.20.0.0 0.0.255.255
+      - permit 10.30.0.0 0.0.255.255
+      - deny   any
+  - name: INTERNET-IN
+    type: extended
+    lines:
+      - permit udp host 192.168.122.1 eq domain any
+      - remark Allow DHCP replies from GNS3 NAT
+      - permit udp host 192.168.122.1 eq bootps any eq bootpc
+      - remark Reject spoofed private sources
+      - deny   ip 10.0.0.0 0.255.255.255 any log
+      - deny   ip 172.16.0.0 0.15.255.255 any log
+      - deny   ip 192.168.0.0 0.0.255.255 any log
+      - deny   ip 127.0.0.0 0.255.255.255 any
+      - permit tcp any any established
+      - permit udp any eq domain any
+      - permit udp any eq ntp any
+      - permit icmp any any echo-reply
+      - permit icmp any any time-exceeded
+      - permit icmp any any packet-too-big
+      - deny   ip any any log
+acl_bindings:
+  - name: FastEthernet0/0
+    acl: INTERNET-IN
+    direction: in

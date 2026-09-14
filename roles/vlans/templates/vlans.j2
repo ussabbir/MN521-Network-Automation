@@ -1,0 +1,4 @@
+{% for vlan in site_vlans %}
+vlan {{ vlan.id }}
+ name {{ vlan.name }}
+{% endfor %}

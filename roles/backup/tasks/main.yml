@@ -1,0 +1,29 @@
+---
+- name: BACKUP | Create local backup directory
+  ansible.builtin.file:
+    path: "{{ playbook_dir }}/../backups"
+    state: directory
+    mode: "0755"
+  delegate_to: localhost
+  run_once: true
+
+- name: BACKUP | Save running configuration
+  cisco.ios.ios_config:
+    backup: yes
+    backup_options:
+      dir_path: "{{ playbook_dir }}/../backups"
+      filename: "{{ inventory_hostname }}-running.cfg"
+- name: BACKUP | Collect running configuration
+  cisco.ios.ios_command:
+    commands: show running-config
+  register: running_config
+
+- name: BACKUP | Collect startup configuration
+  cisco.ios.ios_command:
+    commands: show startup-config
+  register: startup_config
+
+- name: BACKUP | Report configuration drift
+  ansible.builtin.debug:
+    msg: "DRIFT DETECTED on {{ inventory_hostname }}: running configuration differs from startup configuration"
+  when: running_config.stdout[0] != startup_config.stdout[0]
