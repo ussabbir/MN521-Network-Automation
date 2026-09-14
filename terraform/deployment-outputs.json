@@ -1,0 +1,103 @@
+{
+  "ami_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "ami-073c91dd6ea1e9999"
+  },
+  "app_private_ip": {
+    "sensitive": false,
+    "type": "string",
+    "value": "10.100.11.169"
+  },
+  "availability_zones": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "ap-southeast-2a",
+      "ap-southeast-2b"
+    ]
+  },
+  "bastion_public_dns": {
+    "sensitive": false,
+    "type": "string",
+    "value": "ec2-3-106-214-44.ap-southeast-2.compute.amazonaws.com"
+  },
+  "bastion_public_ip": {
+    "sensitive": false,
+    "type": "string",
+    "value": "3.106.214.44"
+  },
+  "internet_gateway_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "igw-0a668fd33231a1a09"
+  },
+  "private_subnet_ids": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "subnet-0ad3ef6f67395f221",
+      "subnet-0a2dd8c152935c05e"
+    ]
+  },
+  "public_subnet_ids": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "subnet-09839b53fff4b5061",
+      "subnet-08dadb67582208665"
+    ]
+  },
+  "security_group_ids": {
+    "sensitive": false,
+    "type": [
+      "object",
+      {
+        "app": "string",
+        "bastion": "string"
+      }
+    ],
+    "value": {
+      "app": "sg-07cfe433c721c7108",
+      "bastion": "sg-0c4c2a1c8201bf1c5"
+    }
+  },
+  "ssh_to_app_via_bastion": {
+    "sensitive": false,
+    "type": "string",
+    "value": "ssh -i ./mn521-enterprise-key.pem -J ec2-user@3.106.214.44 ec2-user@10.100.11.169"
+  },
+  "ssh_to_bastion": {
+    "sensitive": false,
+    "type": "string",
+    "value": "ssh -i ./mn521-enterprise-key.pem ec2-user@3.106.214.44"
+  },
+  "vpc_cidr_block": {
+    "sensitive": false,
+    "type": "string",
+    "value": "10.100.0.0/16"
+  },
+  "vpc_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "vpc-03e7278a47f433460"
+  }
+}
