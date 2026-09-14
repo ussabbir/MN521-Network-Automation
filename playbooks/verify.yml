@@ -1,0 +1,7 @@
+---
+- name: Stage 8 - Verify network health
+  hosts: network
+  gather_facts: no
+
+  roles:
+    - monitoring

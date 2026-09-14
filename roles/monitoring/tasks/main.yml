@@ -1,0 +1,84 @@
+---
+- name: MONITOR | Show interface status
+  cisco.ios.ios_command:
+    commands: show ip interface brief
+  register: interface_status
+
+- name: MONITOR | Display interface status
+  ansible.builtin.debug:
+    var: interface_status.stdout_lines
+
+- name: MONITOR | Show OSPF neighbours
+  cisco.ios.ios_command:
+    commands: show ip ospf neighbor
+  register: ospf_status
+  when: inventory_hostname in groups['routers']
+
+- name: MONITOR | Display OSPF neighbours
+  ansible.builtin.debug:
+    var: ospf_status.stdout_lines
+  when: inventory_hostname in groups['routers']
+
+- name: MONITOR | Show ACLs
+  cisco.ios.ios_command:
+    commands: show access-lists
+  register: acl_status
+
+- name: MONITOR | Display ACLs
+  ansible.builtin.debug:
+    var: acl_status.stdout_lines
+- name: MONITOR | Show VLAN status
+  cisco.ios.ios_command:
+    commands: show vlan brief
+  register: vlan_status
+  when: inventory_hostname in groups['switches']
+
+- name: MONITOR | Display VLAN status
+  ansible.builtin.debug:
+    var: vlan_status.stdout_lines
+  when: inventory_hostname in groups['switches']
+
+- name: MONITOR | Check CPU utilisation
+  cisco.ios.ios_command:
+    commands: show processes cpu | include CPU utilization
+  register: cpu_status
+
+- name: MONITOR | Display CPU utilisation
+  ansible.builtin.debug:
+    var: cpu_status.stdout_lines
+
+- name: MONITOR | Check memory utilisation
+  cisco.ios.ios_command:
+    commands: show processes memory | include Processor Pool Total
+  register: memory_status
+
+- name: MONITOR | Display memory utilisation
+  ansible.builtin.debug:
+    var: memory_status.stdout_lines
+
+- name: MONITOR | Test connectivity to core loopbacks
+  cisco.ios.ios_ping:
+    dest: "{{ item }}"
+  loop:
+    - 10.255.255.1
+    - 10.255.255.2
+    - 10.255.255.3
+    - 10.255.255.4
+  register: connectivity_status
+  when: inventory_hostname in groups['routers']
+
+- name: MONITOR | Generate HTML health report
+  ansible.builtin.template:
+    src: network-health.html.j2
+    dest: "{{ playbook_dir }}/../reports/network-health.html"
+    mode: "0644"
+  delegate_to: localhost
+  run_once: true
+
+- name: MONITOR | Generate CSV device inventory
+  ansible.builtin.template:
+    src: device-inventory.csv.j2
+    dest: "{{ playbook_dir }}/../reports/device-inventory.csv"
+    mode: "0644"
+  delegate_to: localhost
+  run_once: true

@@ -1,0 +1,7 @@
+---
+- name: Stage 8 - Backup network device configurations
+  hosts: network
+  gather_facts: no
+
+  roles:
+    - backup

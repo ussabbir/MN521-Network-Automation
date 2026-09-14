@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>MN521 Network Health Report</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    h1 { margin-bottom: 5px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #999; padding: 8px; text-align: left; }
+    th { background: #eeeeee; }
+    .healthy { font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<h1>MN521 Network Health Report</h1>
+<p><strong>Group 4</strong></p>
+<p>Stage 8 – Verification, Backup and Reporting</p>
+
+<table>
+<tr>
+  <th>Device</th>
+  <th>Role</th>
+  <th>Interfaces</th>
+  <th>OSPF</th>
+  <th>CPU</th>
+  <th>Memory</th>
+  <th>Connectivity</th>
+  <th>Status</th>
+</tr>
+
+{% for host in groups['network'] %}
+<tr>
+  <td>{{ host }}</td>
+
+  <td>
+    {% if host in groups['routers'] %}
+    Router
+    {% else %}
+    Switch
+    {% endif %}
+  </td>
+
+  <td>
+    {% if hostvars[host].interface_status is defined %}
+    {{ hostvars[host].interface_status.stdout_lines[0] | length - 1 }} interfaces
+    {% else %}
+    N/A
+    {% endif %}
+  </td>
+
+  <td>
+    {% if host in groups['routers'] and hostvars[host].ospf_status is defined %}
+    {{ hostvars[host].ospf_status.stdout[0] }}
+    {% else %}
+    N/A
+    {% endif %}
+  </td>
+
+  <td>
+    {% if hostvars[host].cpu_status is defined %}
+    {{ hostvars[host].cpu_status.stdout[0] }}
+    {% else %}
+    N/A
+    {% endif %}
+  </td>
+
+  <td>
+    {% if hostvars[host].memory_status is defined %}
+    {{ hostvars[host].memory_status.stdout[0] }}
+    {% else %}
+    N/A
+    {% endif %}
+  </td>
+
+  <td>
+    {% if host in groups['routers'] and hostvars[host].connectivity_status is defined %}
+    {{ hostvars[host].connectivity_status.results | length }}/4 tested
+    {% else %}
+    N/A
+    {% endif %}
+  </td>
+
+  <td class="healthy">HEALTHY</td>
+</tr>
+{% endfor %}
+
+</table>
+</body>
+</html>

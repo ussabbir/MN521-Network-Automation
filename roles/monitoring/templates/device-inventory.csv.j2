@@ -1,0 +1,4 @@
+hostname,role,interfaces_total,ospf_neighbors,connectivity,status
+{% for host in groups['network'] %}
+{{ host }},{% if host in groups['routers'] %}Router{% else %}Switch{% endif %},{% if hostvars[host].interface_status is defined %}{{ hostvars[host].interface_status.stdout_lines[0] | length - 1 }}{% else %}N/A{% endif %},{% if host in groups['routers'] and hostvars[host].ospf_status is defined %}{{ hostvars[host].ospf_status.stdout_lines[0] | length - 1 }}{% else %}N/A{% endif %},{% if host in groups['routers'] and hostvars[host].connectivity_status is defined %}{{ hostvars[host].connectivity_status.results | length }}/4{% else %}N/A{% endif %},HEALTHY
+{% endfor %}
